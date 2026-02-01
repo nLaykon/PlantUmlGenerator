@@ -1,0 +1,29 @@
+@startuml
+
+class ModelRepository
+class MethodModel
+class JavaLanguageParser
+interface LanguageParser
+class PlantUmlWriter
+class TypeModel
+class FieldModel
+class Main
+
+LanguageParser <|.. JavaLanguageParser
+
+ModelRepository ..> TypeModel
+JavaLanguageParser ..> MethodModel
+JavaLanguageParser ..> LanguageParser
+JavaLanguageParser ..> TypeModel
+JavaLanguageParser ..> ModelRepository
+JavaLanguageParser ..> FieldModel
+LanguageParser ..> ModelRepository
+PlantUmlWriter ..> ModelRepository
+PlantUmlWriter ..> TypeModel
+TypeModel ..> MethodModel
+TypeModel ..> FieldModel
+Main ..> ModelRepository
+Main ..> JavaLanguageParser
+Main ..> LanguageParser
+
+@enduml
