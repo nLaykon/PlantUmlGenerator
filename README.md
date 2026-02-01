@@ -32,7 +32,7 @@ cd PlantUmlGenerator
 This will generate the executable in:
 
 ```text
-build\install\PlantUmlGenedrator\bin\PlantUmlGenedrator.bat
+build\install\PlantUmlGenerator\bin\PlantUmlGenerator.bat
 ```
 
 ---
@@ -42,7 +42,7 @@ build\install\PlantUmlGenedrator\bin\PlantUmlGenedrator.bat
 Run the generator from the **project root**:
 
 ```bash
-build\install\PlantUmlGenedrator\bin\PlantUmlGenedrator.bat "{packageDir}" "{savePath}\diagram.puml"
+build\install\PlantUmlGenerator\bin\PlantUmlGenerator.bat "{packageDir}" "{savePath}\diagram.puml"
 ```
 
 - {packageDir} – Path to your Java source folder (e.g., src\main\java\org\example)
@@ -53,7 +53,7 @@ build\install\PlantUmlGenedrator\bin\PlantUmlGenedrator.bat "{packageDir}" "{sav
 Generate a diagram from src\main\java\org\example and save it to output\diagram.puml:
 
 ```bash
-build\install\PlantUmlGenedrator\bin\PlantUmlGenedrator.bat "src\main\java\org\example" "output\diagram.puml"
+build\install\PlantUmlGenerator\bin\PlantUmlGenerator.bat "src\main\java\org\example" "output\diagram.puml"
 ```
 
 Then, generate the UML diagram using PlantUML:
