@@ -1,1 +1,1 @@
-rootProject.name = "PlantUmlGenedrator"
+rootProject.name = "PlantUmlGenerator"
