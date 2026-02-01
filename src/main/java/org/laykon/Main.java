@@ -10,7 +10,8 @@ import java.util.List;
 public class Main {
 
     private static final List<LanguageParser> PARSERS = List.of(
-            new JavaLanguageParser()
+            new JavaLanguageParser(),
+            new PythonLanguageParser()
     );
 
     public static void main(String[] args) throws Exception {

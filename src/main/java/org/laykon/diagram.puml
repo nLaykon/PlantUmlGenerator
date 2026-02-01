@@ -1,5 +1,6 @@
 @startuml
 
+class PythonLanguageParser
 class ModelRepository
 class MethodModel
 class JavaLanguageParser
@@ -9,8 +10,14 @@ class TypeModel
 class FieldModel
 class Main
 
+LanguageParser <|.. PythonLanguageParser
 LanguageParser <|.. JavaLanguageParser
 
+PythonLanguageParser ..> MethodModel
+PythonLanguageParser ..> LanguageParser
+PythonLanguageParser ..> TypeModel
+PythonLanguageParser ..> ModelRepository
+PythonLanguageParser ..> FieldModel
 ModelRepository ..> TypeModel
 JavaLanguageParser ..> MethodModel
 JavaLanguageParser ..> LanguageParser
@@ -22,8 +29,9 @@ PlantUmlWriter ..> ModelRepository
 PlantUmlWriter ..> TypeModel
 TypeModel ..> MethodModel
 TypeModel ..> FieldModel
-Main ..> ModelRepository
+Main ..> PythonLanguageParser
 Main ..> JavaLanguageParser
 Main ..> LanguageParser
+Main ..> ModelRepository
 
 @enduml

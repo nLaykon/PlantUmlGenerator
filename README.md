@@ -15,6 +15,10 @@ A **Java-based tool** to generate **PlantUML .puml diagrams** from your Java pro
     - Inheritance (extends) and interface implementation (implements)
     - Class usage relationships
 - Outputs a .puml file compatible with [PlantUML](https://plantuml.com/) for diagram generation.
+---
+- Supported Languages
+  - Java
+  - Python
 
 ---
 
