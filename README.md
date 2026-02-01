@@ -2,7 +2,7 @@
 
 A **Java-based tool** to generate **PlantUML .puml diagrams** from your Java project. Automatically detects classes, fields, methods, inheritance, implementations, and usage relationships.
 
-![Java](https://img.shields.io/badge/Java-17-blue) ![Gradle](https://img.shields.io/badge/Gradle-7.0-brightgreen)
+![Java](https://img.shields.io/badge/Java-21-blue) ![Gradle](https://img.shields.io/badge/Gradle-9.0-brightgreen)
 
 ---
 
