@@ -1,17 +1,100 @@
 @startuml
 
-class PythonLanguageParser
-class ModelRepository
-class MethodModel
-class JavaLanguageParser
-interface LanguageParser
-class PlantUmlWriter
-class TypeModel
-class FieldModel
-class Main
+class PythonLanguageParser {
+  extensions() : Set<String>
+  parse(Path, ModelRepository)
+  countIndent(String) : int
+  parseClassName(String) : String
+  parseBaseClasses(String) : List<String>
+  parseMethodName(String) : String
+  parseParams(String) : String
+  parseReturnType(String) : String
+  parseParamTypes(String) : List<String>
+  parseParamNameTypes(String) : Map<String,String>
+  parseSelfAssignment(String, Map<String,String>) : FieldModel
+  parseClassField(String, TypeModel) : FieldModel
+  addDependencies(String, TypeModel)
+  extractTypeNames(String) : List<String>
+  isPrimitiveType(String) : boolean
+}
+class ModelRepository {
+  types : Map<String,TypeModel>
+  getOrCreate(String, TypeKind) : TypeModel
+  all() : Collection<TypeModel>
+  contains(String) : boolean
+}
+class MethodModel {
+  name : String
+  returnType : String
+  parameters : List<String>
+}
+class JavaLanguageParser {
+  extensions() : Set<String>
+  parse(Path, ModelRepository)
+}
+interface LanguageParser {
+  extensions() : Set<String>
+  parse(Path, ModelRepository)
+}
+class PlantUmlWriter {
+  write(Path, ModelRepository)
+  typeKeyword(TypeModel) : String
+}
+class TypeModel {
+  name : String
+  kind : TypeKind
+  fields : List<FieldModel>
+  methods : List<MethodModel>
+  extendsTypes : Set<String>
+  implementsTypes : Set<String>
+  dependencies : Set<String>
+}
+class FieldModel {
+  name : String
+  type : String
+}
+class Main {
+  PARSERS : List<LanguageParser>
+  main(String[])
+  ext(Path) : String
+}
+class Debug {
+  enabled : boolean
+  setEnabled(boolean)
+  log(String)
+}
+class CSharpLanguageParser {
+  CLASS_PATTERN : Pattern
+  METHOD_PATTERN : Pattern
+  CONSTRUCTOR_PATTERN : Pattern
+  FIELD_PROPERTY_PATTERN : Pattern
+  PROPERTY_PATTERN : Pattern
+  GENERIC_CONTAINERS : Set<String>
+  extensions() : Set<String>
+  parse(Path, ModelRepository)
+  parseTypeBody(String, TypeModel)
+  extractMembersFromLines(String, TypeModel, Set<String>, Set<String>)
+  parseEnumBody(String, TypeModel)
+  removeComments(String) : String
+  findOpeningBrace(String, int) : int
+  findMatchingBrace(String, int) : int
+  stripMethodBodies(String) : String
+  isPrimitiveType(String) : boolean
+  cleanGenericType(String) : String
+  addDependencies(String, TypeModel)
+  extractTypeNames(String) : List<String>
+  extractParamType(String) : String
+  isParamModifier(String) : boolean
+  cleanReturnType(String) : String
+  isModifier(String) : boolean
+  stripAttributes(String) : String
+  extractTypeAndName(String) : String[]
+  isFieldModifier(String) : boolean
+}
 
 LanguageParser <|.. PythonLanguageParser
 LanguageParser <|.. JavaLanguageParser
+LanguageParser <|.. CSharpLanguageParser
 
 PythonLanguageParser ..> MethodModel
 PythonLanguageParser ..> LanguageParser
@@ -26,12 +109,20 @@ JavaLanguageParser ..> ModelRepository
 JavaLanguageParser ..> FieldModel
 LanguageParser ..> ModelRepository
 PlantUmlWriter ..> ModelRepository
+PlantUmlWriter ..> MethodModel
 PlantUmlWriter ..> TypeModel
+PlantUmlWriter ..> FieldModel
 TypeModel ..> MethodModel
 TypeModel ..> FieldModel
 Main ..> PythonLanguageParser
 Main ..> JavaLanguageParser
 Main ..> LanguageParser
 Main ..> ModelRepository
+Main ..> CSharpLanguageParser
+CSharpLanguageParser ..> MethodModel
+CSharpLanguageParser ..> LanguageParser
+CSharpLanguageParser ..> TypeModel
+CSharpLanguageParser ..> ModelRepository
+CSharpLanguageParser ..> FieldModel
 
 @enduml
