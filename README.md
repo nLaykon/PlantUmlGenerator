@@ -19,6 +19,8 @@ A **Java-based tool** to generate **PlantUML .puml diagrams** from your Java pro
 - Supported Languages
   - Java
   - Python
+  - C#
+  - TypeScript
 
 ---
 

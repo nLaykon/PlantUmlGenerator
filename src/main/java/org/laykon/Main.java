@@ -13,7 +13,8 @@ public class Main {
     private static final List<LanguageParser> PARSERS = List.of(
             new JavaLanguageParser(),
             new PythonLanguageParser(),
-            new CSharpLanguageParser()
+            new CSharpLanguageParser(),
+            new TypeScriptLanguageParser()
     );
     public static void main(String[] args) throws Exception {
         int i = 0;

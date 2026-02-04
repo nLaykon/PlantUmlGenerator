@@ -125,35 +125,47 @@ public class CSharpLanguageParser implements LanguageParser {
         Set<String> fieldNames = new HashSet<>();
         Set<String> methodKeys = new HashSet<>();
 
-        Matcher fieldPropMatcher = FIELD_PROPERTY_PATTERN.matcher(bodyWithoutMethodBodies);
         int fieldCount = 0;
-        while (fieldPropMatcher.find()) {
-            fieldCount++;
-            String fieldType = fieldPropMatcher.group(1).trim();
-            String fieldName = fieldPropMatcher.group(2).trim();
-
-            if (!fieldName.contains("(") && !fieldType.contains("(") &&
-                    !fieldPropMatcher.group(0).contains("{")) {
-                type.fields.add(new FieldModel(fieldName, fieldType));
-                fieldNames.add(fieldName);
-
-                addDependencies(fieldType, type);
+        int propCount = 0;
+        String[] lines = bodyWithoutMethodBodies.split("\\R");
+        for (String raw : lines) {
+            String line = raw.trim();
+            if (line.isEmpty()) {
+                continue;
+            }
+            if (line.contains("{") && line.contains("}") && line.contains("get")) {
+                String head = line.substring(0, line.indexOf('{')).trim();
+                String[] typeName = extractTypeAndName(head);
+                if (typeName != null) {
+                    String propType = typeName[0];
+                    String propName = typeName[1];
+                    if (fieldNames.add(propName)) {
+                        type.fields.add(new FieldModel(propName, propType));
+                        propCount++;
+                    }
+                    addDependencies(propType, type);
+                }
+                continue;
+            }
+            if (line.endsWith(";") && !line.contains("(") && !line.contains("{")) {
+                String head = line.substring(0, line.length() - 1).trim();
+                int assignIdx = head.indexOf('=');
+                if (assignIdx >= 0) {
+                    head = head.substring(0, assignIdx).trim();
+                }
+                String[] typeName = extractTypeAndName(head);
+                if (typeName != null) {
+                    String fieldType = typeName[0];
+                    String fieldName = typeName[1];
+                    if (fieldNames.add(fieldName)) {
+                        type.fields.add(new FieldModel(fieldName, fieldType));
+                        fieldCount++;
+                    }
+                    addDependencies(fieldType, type);
+                }
             }
         }
-        Debug.log("C# fields/properties found: " + fieldCount);
-
-        Matcher propMatcher = PROPERTY_PATTERN.matcher(bodyWithoutMethodBodies);
-        int propCount = 0;
-        while (propMatcher.find()) {
-            propCount++;
-            String propType = propMatcher.group(1).trim();
-            String propName = propMatcher.group(2).trim();
-
-            type.fields.add(new FieldModel(propName, propType));
-            fieldNames.add(propName);
-
-            addDependencies(propType, type);
-        }
+        Debug.log("C# fields found: " + fieldCount);
         Debug.log("C# properties found: " + propCount);
 
         Matcher methodMatcher = METHOD_PATTERN.matcher(body);
