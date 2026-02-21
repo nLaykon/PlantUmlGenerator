@@ -1,5 +1,6 @@
 package org.laykon.parser;
 
+import com.github.javaparser.ParserConfiguration;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.*;
@@ -12,6 +13,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class JavaLanguageParser implements LanguageParser {
+    static {
+        StaticJavaParser.getParserConfiguration()
+                .setLanguageLevel(ParserConfiguration.LanguageLevel.BLEEDING_EDGE);
+    }
 
     @Override
     public Set<String> extensions() {
